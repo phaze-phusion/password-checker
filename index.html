@@ -10,10 +10,10 @@
     <link rel="icon" href="favicon-32.png" type="image/png" />
 	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans:400,700" />
 
-	<!--<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cyborg/bootstrap.min.css" />
-	<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">-->
-    <link rel="stylesheet" type="text/css" href="libs/bootstrap/css/bootstrap-cyborg.min.css" />
-	<link rel="stylesheet" type="text/css" href="libs/font-awesome/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cyborg/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <!--<link rel="stylesheet" type="text/css" href="libs/bootstrap/css/bootstrap-cyborg.min.css" />
+	<link rel="stylesheet" type="text/css" href="libs/font-awesome/css/font-awesome.min.css" />-->
 
     <link rel="stylesheet" type="text/css" href="css/password-checker.css" />
   </head>
@@ -26,12 +26,12 @@
 
 			<form id="password-checker" class="form-horizontal" data-prev="">
 				<div class="form-group">
-					<label id="passwordMaskedLabel" for="passwordTxt" class="col-ss-12 col-xs-4 col-sm-3 control-label hidden">Password</label>
-					<div id="passwordMasked" class="col-ss-12 col-xs-8 col-sm-9 input-group hidden">
+					<label id="passwordMaskedLabel" for="passwordTxt" class="col-ss-12 col-xs-4 col-sm-3 control-label">Password</label>
+					<div id="passwordMasked" class="col-ss-12 col-xs-8 col-sm-9 input-group">
 						<input type="password" id="passwordPwd" autocomplete="off" class="form-control" /><div id="passwordShow" class="input-group-addon"><span class="fa fa-eye"></span><span class="sr-only">show</span></div>
 					</div>
-					<label id="passwordVisibleLabel" for="passwordPwd" class="col-ss-12 col-xs-4 col-sm-3 control-label">Password</label>
-					<div id="passwordVisible" class="col-ss-12 col-xs-8 col-sm-9 input-group">
+					<label id="passwordVisibleLabel" for="passwordPwd" class="col-ss-12 col-xs-4 col-sm-3 control-label hidden">Password</label>
+					<div id="passwordVisible" class="col-ss-12 col-xs-8 col-sm-9 input-group hidden">
 						<input type="text" id="passwordTxt" autocomplete="off" class="form-control" /><div id="passwordHide" class="input-group-addon"><span class="fa fa-eye-slash"></span><span class="sr-only">hide</span></div>
 					</div>
 				</div>
@@ -386,7 +386,7 @@
                 The metrics about your passwords are based on best practices.<br>
                 They are just recommendations and do not guarantee that your password is really un-crackable.<br><br>
                 You shouldn't test your real passwords here, rather test look-alikes.<br>
-                Download this application from <a href="#">GitHub</a>, check the source code and then run it locally to test your real passwords.
+                View or download the source code from <a href="https://github.com/phaze-phusion/password-checker">GitHub</a>.
             </p>
         </div>
         <div class="col-md-5 col-lg-4">
@@ -406,7 +406,7 @@
 
     <footer>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-sm-9">
                 <p id="footer-credits">
                     <span id="credit-title">Credits:</span>
                     <a id="jquery-link" href="http://jquery.com/" target="_blank">jQuery</a>
@@ -415,11 +415,11 @@
                     <a id="fontawesome-link" href="http://fontawesome.io/" target="_blank">Font Awesome</a>
                 </p>
             </div>
-            <!--<div class="col-md-6">
+            <div class="col-sm-3 hidden-xs">
                 <p id="repo-text" class="pull-right">
                     view &nbsp;<a target="_blank" href="https://github.com/phaze-phusion/password-checker" id="git-repo-link"><span class="fa fa-git fa-lg"></span></a>&nbsp; repo
                 </p>
-            </div>-->
+            </div>
         </div>
     </footer>
     </div> <!-- /container -->
