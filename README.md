@@ -7,7 +7,7 @@ See it in action http://phaze-phusion.co.za/password-checker/
 [yetanotherpasswordmeter.com](http://www.yetanotherpasswordmeter.com)  
 [passwordmeter.com](http://passwordmeter.com/) created by Jeff Todnem
 
-> **Entropy?**
+> **Entropy?**  
 > Entropy was added as a nice to know front-end feature, it **doesn't affect the score**.  
 > For the reason see this paper:  http://reusablesec.blogspot.com/2010/10/new-paper-on-password-security-metrics.html  
 
