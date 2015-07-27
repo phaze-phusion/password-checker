@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Password Strength Checker</title>
+    <meta name="description" content="Password strength checker built with Bootstrap" />
+    <meta name="author" content="phaze-phusion" />
+    <link rel="icon" href="favicon-32.png" type="image/png" />
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans:400,700" />
+
+	<!--<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cyborg/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">-->
+    <link rel="stylesheet" type="text/css" href="libs/bootstrap/css/bootstrap-cyborg.min.css" />
+	<link rel="stylesheet" type="text/css" href="libs/font-awesome/css/font-awesome.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="css/password-checker.css" />
+  </head>
+  <body role="document">
+    <div class="container theme-showcase" role="main">
+
+	<div class="row">
+		<div class="col-sm-7">
+			<h3 class="heading">Test Your Password</h3>
+
+			<form id="password-checker" class="form-horizontal" data-prev="">
+				<div class="form-group">
+					<label id="passwordMaskedLabel" for="passwordTxt" class="col-ss-12 col-xs-4 col-sm-3 control-label hidden">Password</label>
+					<div id="passwordMasked" class="col-ss-12 col-xs-8 col-sm-9 input-group hidden">
+						<input type="password" id="passwordPwd" autocomplete="off" class="form-control" /><div id="passwordShow" class="input-group-addon"><span class="fa fa-eye"></span><span class="sr-only">show</span></div>
+					</div>
+					<label id="passwordVisibleLabel" for="passwordPwd" class="col-ss-12 col-xs-4 col-sm-3 control-label">Password</label>
+					<div id="passwordVisible" class="col-ss-12 col-xs-8 col-sm-9 input-group">
+						<input type="text" id="passwordTxt" autocomplete="off" class="form-control" /><div id="passwordHide" class="input-group-addon"><span class="fa fa-eye-slash"></span><span class="sr-only">hide</span></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-ss-12 col-xs-4 col-sm-3 control-label">Strength</label>
+					<div class="col-ss-12 col-xs-8 col-sm-9 input-group">
+						<div id="score-container">
+							<div id="score-percentage">0%</div>
+							<div id="score-graphic"></div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-4 col-sm-3 control-label">Score</label>
+					<div class="col-xs-8 col-sm-9 input-group">
+                        <div id="score-total"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-4 col-sm-3 control-label">Entropy</label>
+					<div class="col-xs-8 col-sm-9 input-group">
+                        <div id="entropy">2<sup id="entropy-exponent">0</sup>&nbsp;&nbsp;(<span id="entropy-bits">0</span> bits)</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-4 col-sm-3 control-label">Complexity</label>
+					<div class="col-xs-8 col-sm-9 input-group">
+						<div id="complexity"></div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="col-sm-1 hidden-xs"></div>
+		<div class="col-sm-4">
+            <h4 class="heading">Try these</h4>
+            <ul class="list-unstyled">
+                <li><a class="try-me" role="button" tabindex="0">P@ssw0rd123</a></li>
+                <li><a class="try-me" role="button" tabindex="0">abc321a!@#ABC</a></li>
+                <li><a class="try-me" role="button" tabindex="0">^jA5'y@E8Fg1#</a></li>
+                <li><a class="try-me" role="button" tabindex="0">Joan Of Arc de Triomphe</a> vs. <a class="try-me" role="button" tabindex="0">J.@nOfAR(d3tr!0m_4é</a></li>
+            </ul>
+		</div>
+	</div>
+    <div class="row">
+        <table id="scorecard-constructive" class="scorecard-table table">
+            <thead>
+            <tr>
+                <th class="status"><span class="sr-only">Status</span></th>
+                <th class="description">Additions</th>
+                <th class="formula"><span class="sr-only">More info</span></th>
+                <th class="minimum equal-width-col">Min</th>
+                <th class="count equal-width-col">Count</th>
+                <th class="factor equal-width-col">Factor</th>
+                <th class="rating equal-width-col">Rating</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr id="requirements" class="status-fail">
+                <td class="status"><span class="fa fa-times" title="Fail"></span></td>
+                <td class="description">Basic Requirements</td>
+                <td class="formula">&nbsp;</td>
+                <td class="minimum">6</td>
+                <td class="count">0</td>
+                <td class="factor">0</td>
+                <td class="rating">0</td>
+            </tr>
+            <tr id="characterCountNormal" class="status-fail">
+                <td class="status"><span class="fa fa-times" title="Fail"></span></td>
+                <td class="description">Character count: Normal</td>
+                <td class="formula">&nbsp;</td>
+                <td class="minimum">0</td>
+                <td class="count">0</td>
+                <td class="factor">0</td>
+                <td class="rating">0</td>
+            </tr>
+            <tr id="characterCountRecommended" class="status-fail">
+                <td class="status"><span class="fa fa-times" title="Fail"></span></td>
+                <td class="description">Character count: Recommended</td>
+                <td class="formula">&nbsp;</td>
+                <td class="minimum">0</td>
+                <td class="count">0</td>
+                <td class="factor">0</td>
+                <td class="rating">0</td>
+            </tr>
+            <tr id="lowercaseCount" class="status-fail">
+                <td class="status"><span class="fa fa-times" title="Fail"></span></td>
+                <td class="description">Lowercase Letters</td>
+                <td class="formula">
+                    <a class="formula-toggle" tabindex="0" role="button"
+                       data-toggle="popover" data-placement="left" data-container="body" data-trigger="focus"
+                       data-content="[a-z]">
+                        <span class="fa fa-question"></span></a>
+                </td>
+                <td class="minimum">0</td>
+                <td class="count">0</td>
+                <td class="factor">0</td>
+                <td class="rating">0</td>
+            </tr>
+            <tr id="uppercaseCount" class="status-fail">
+                <td class="status"><span class="fa fa-times" title="Fail"></span></td>
+                <td class="description">Uppercase Letters</td>
+                <td class="formula">
+                    <a class="formula-toggle" tabindex="0" role="button"
+                       data-toggle="popover" data-placement="left" data-container="body" data-trigger="focus"
+                       data-content="[A-Z]">
+                        <span class="fa fa-question"></span></a>
+                </td>
+                <td class="minimum">0</td>
+                <td class="count">0</td>
+                <td class="factor">0</td>
+                <td class="rating">0</td>
+            </tr>
+            <tr id="numericCount" class="status-fail">
+                <td class="status"><span class="fa fa-times" title="Fail"></span></td>
+                <td class="description">Numeric characters</td>
+                <td class="formula">
+                    <a class="formula-toggle" tabindex="0" role="button"
+                       data-toggle="popover" data-placement="left" data-container="body" data-trigger="focus"
+                       data-content="[0-9]">
+                        <span class="fa fa-question"></span></a>
+                </td>
+                <td class="minimum">0</td>
+                <td class="count">0</td>
+                <td class="factor">0</td>
+                <td class="rating">0</td>
+            </tr>
+            <tr id="symbolCount" class="status-fail">
+                <td class="status"><span class="fa fa-times" title="Fail"></span></td>
+                <td class="description">Symbol characters</td>
+                <td class="formula">
+                    <a class="formula-toggle" tabindex="0" role="button"
+                       data-toggle="popover" data-placement="left" data-container="body" data-trigger="focus"
+                       data-content="[^0-9a-zA-Z]">
+                        <span class="fa fa-question"></span></a>
+                </td>
+                <td class="minimum">0</td>
+                <td class="count">0</td>
+                <td class="factor">0</td>
+                <td class="rating">0</td>
+            </tr>
+            <tr id="middleNumericCount" class="status-fail">
+                <td class="status"><span class="fa fa-times" title="Fail"></span></td>
+                <td class="description">Middle Numeric characters</td>
+                <td class="formula">
+                    <a class="formula-toggle" tabindex="0" role="button"
+                          data-toggle="popover" data-placement="left" data-container="body" data-trigger="focus"
+                          data-content="/^.*[^0-9].*[0-9]+.*[^0-9].*$/">
+                        <span class="fa fa-question"></span></a>
+                </td>
+                <td class="minimum">0</td>
+                <td class="count">0</td>
+                <td class="factor">0</td>
+                <td class="rating">0</td>
+            </tr>
+            <tr id="middleSymbolCount" class="status-fail">
+                <td class="status"><span class="fa fa-times" title="Fail"></span></td>
+                <td class="description">Middle Symbol characters</td>
+                <td class="formula">
+                    <a class="formula-toggle" tabindex="0" role="button"
+                          data-toggle="popover" data-placement="left" data-container="body" data-trigger="focus"
+                          data-content="/^.*[0-9a-zA-Z].*[^0-9a-zA-Z]+.*[0-9a-zA-Z].*$/">
+                        <span class="fa fa-question"></span></a>
+                </td>
+                <td class="minimum">0</td>
+                <td class="count">0</td>
+                <td class="factor">0</td>
+                <td class="rating">0</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <table id="scorecard-destructive" class="scorecard-table table">
+        <thead>
+        <tr>
+            <th class="status"><span class="sr-only">Status</span></th>
+            <th class="description">Deductions</th>
+            <th class="formula"><span class="sr-only">More info</span></th>
+            <th class="maximum equal-width-col">Max</th>
+            <th class="count equal-width-col">Count</th>
+            <th class="factor equal-width-col">Factor</th>
+            <th class="rating equal-width-col">Rating</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr id="repeatedCharacters" class="status-pass">
+            <td class="status"><span class="fa fa-check" title="Pass"></span></td>
+            <td class="description">Repeated characters</td>
+            <td class="formula">&nbsp;</td>
+            <td class="maximum">0</td>
+            <td class="count">0</td>
+            <td class="factor">0</td>
+            <td class="rating">0</td>
+        </tr>
+        <tr id="consecutiveLowercase" class="status-pass">
+            <td class="status"><span class="fa fa-check" title="Pass"></span></td>
+            <td class="description">Consecutive Lowercase</td>
+            <td class="formula">&nbsp;</td>
+            <td class="maximum">0</td>
+            <td class="count">0</td>
+            <td class="factor">0</td>
+            <td class="rating">0</td>
+        </tr>
+        <tr id="consecutiveUppercase" class="status-pass">
+            <td class="status"><span class="fa fa-check" title="Pass"></span></td>
+            <td class="description">Consecutive Uppercase</td>
+            <td class="formula">&nbsp;</td>
+            <td class="maximum">0</td>
+            <td class="count">0</td>
+            <td class="factor">0</td>
+            <td class="rating">0</td>
+        </tr>
+        <tr id="consecutiveNumbers" class="status-pass">
+            <td class="status"><span class="fa fa-check" title="Pass"></span></td>
+            <td class="description">Consecutive Numbers</td>
+            <td class="formula">&nbsp;</td>
+            <td class="maximum">0</td>
+            <td class="count">0</td>
+            <td class="factor">0</td>
+            <td class="rating">0</td>
+        </tr>
+        <tr id="consecutiveSymbols" class="status-pass">
+            <td class="status"><span class="fa fa-check" title="Pass"></span></td>
+            <td class="description">Consecutive Symbols</td>
+            <td class="formula">&nbsp;</td>
+            <td class="maximum">0</td>
+            <td class="count">0</td>
+            <td class="factor">0</td>
+            <td class="rating">0</td>
+        </tr>
+        <tr id="sequentialLetters" class="status-pass">
+            <td class="status"><span class="fa fa-check" title="Pass"></span></td>
+            <td class="description">Sequential Letters</td>
+            <td class="formula">
+                <a class="formula-toggle" tabindex="0" role="button"
+                      data-toggle="popover" data-placement="left" data-container="body" data-trigger="focus"
+                      data-content="abc... ZYX... (3n)">
+                    <span class="fa fa-question"></span></a>
+            </td>
+            <td class="maximum">0</td>
+            <td class="count">0</td>
+            <td class="factor">0</td>
+            <td class="rating">0</td>
+        </tr>
+        <tr id="sequentialNumbers" class="status-pass">
+            <td class="status"><span class="fa fa-check" title="Pass"></span></td>
+            <td class="description">Sequential Numbers</td>
+            <td class="formula">
+                <a class="formula-toggle" tabindex="0" role="button"
+                      data-toggle="popover" data-placement="left" data-container="body" data-trigger="focus"
+                      data-content="0123456789012... (3n)">
+                    <span class="fa fa-question"></span></a>
+            </td>
+            <td class="maximum">0</td>
+            <td class="count">0</td>
+            <td class="factor">0</td>
+            <td class="rating">0</td>
+        </tr>
+        <tr id="sequentialSymbols" class="status-pass">
+            <td class="status"><span class="fa fa-check" title="Pass"></span></td>
+            <td class="description">Sequential Symbols</td>
+            <td class="formula">
+                <a class="formula-toggle" tabindex="0" role="button"
+                      data-toggle="popover" data-placement="left" data-container="body" data-trigger="focus"
+                      data-content="!@#%$^&*()... (3n)">
+                    <span class="fa fa-question"></span></a>
+            </td>
+            <td class="maximum">0</td>
+            <td class="count">0</td>
+            <td class="factor">0</td>
+            <td class="rating">0</td>
+        </tr>
+        <tr id="mirroredSequence" class="status-pass">
+            <td class="status"><span class="fa fa-check" title="Pass"></span></td>
+            <td class="description">Mirrored Sequence</td>
+            <td class="formula">
+                <a class="formula-toggle" tabindex="0" role="button"
+                      data-toggle="popover" data-placement="left" data-container="body" data-trigger="focus"
+                      data-content="aB4..4Ba (3n)">
+                    <span class="fa fa-question"></span></a>
+            </td>
+            <td class="maximum">0</td>
+            <td class="count">0</td>
+            <td class="factor">0</td>
+            <td class="rating">0</td>
+        </tr>
+        <tr id="repeatedSequence" class="status-pass">
+            <td class="status"><span class="fa fa-check" title="Pass"></span></td>
+            <td class="description">Repeated Sequence</td>
+            <td class="formula">
+                <a class="formula-toggle" tabindex="0" role="button"
+                      data-toggle="popover" data-placement="left" data-container="body" data-trigger="focus"
+                      data-content="c4D..c4D (3n)">
+                    <span class="fa fa-question"></span></a>
+            </td>
+            <td class="maximum">0</td>
+            <td class="count">0</td>
+            <td class="factor">0</td>
+            <td class="rating">0</td>
+        </tr>
+        <tr id="keyboardPatterns" class="status-pass">
+            <td class="status"><span class="fa fa-check" title="Pass"></span></td>
+            <td class="description">Keyboard Patterns</td>
+            <td class="formula">
+                <a class="formula-toggle" tabindex="0" role="button"
+                   data-toggle="popover" data-placement="left" data-container="body" data-trigger="focus"
+                   data-content="qwerty">
+                    <span class="fa fa-question"></span></a>
+            </td>
+            <td class="maximum">0</td>
+            <td class="count">0</td>
+            <td class="factor">0</td>
+            <td class="rating">0</td>
+        </tr>
+        <tr id="yearPatterns" class="status-pass">
+            <td class="status"><span class="fa fa-check" title="Pass"></span></td>
+            <td class="description">Year Patterns</td>
+            <td class="formula">
+                <a class="formula-toggle" tabindex="0" role="button" title="Year Patterns"
+                      data-toggle="popover" data-placement="left" data-container="body" data-trigger="focus"
+                      data-content="1800 &ndash; 2299">
+                    <span class="fa fa-question"></span></a>
+            </td>
+            <td class="maximum">0</td>
+            <td class="count">0</td>
+            <td class="factor">0</td>
+            <td class="rating">0</td>
+        </tr>
+        <tr id="commonWords" class="status-pass">
+            <td class="status"><span class="fa fa-check" title="Pass"></span></td>
+            <td class="description">Common Words</td>
+            <td class="formula">
+                <a class="formula-toggle" tabindex="0" role="button" title="Common Words"
+                   data-toggle="popover" data-placement="left" data-container="body" data-trigger="focus"
+                   data-content="access, master, super...">
+                    <span class="fa fa-question"></span></a>
+            </td>
+            <td class="maximum">0</td>
+            <td class="count">0</td>
+            <td class="factor">0</td>
+            <td class="rating">0</td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+    <div class="row">
+        <div class="col-md-7 col-lg-8">
+            <h4 class="heading">Disclaimer</h4>
+            <p>
+                This web site does not transfer data to any server.<br>
+                The application runs strictly in your web browser.<br>
+                The metrics about your passwords are based on best practices.<br>
+                They are just recommendations and do not guarantee that your password is really un-crackable.<br><br>
+                You shouldn't test your real passwords here, rather test look-alikes.<br>
+                Download this application from <a href="#">GitHub</a>, check the source code and then run it locally to test your real passwords.
+            </p>
+        </div>
+        <div class="col-md-5 col-lg-4">
+            <h4 class="heading">Legend</h4>
+            <dl class="row">
+                <dt class="col-xs-4 col-sm-2 col-md-4 status text-primary"><span class="fa fa-plus fa-fw" title="Excellent"></span> Excellent</dt>
+                <dd class="col-xs-8 col-sm-10 col-md-8">Password exceeds rule standards</dd>
+                <dt class="col-xs-4 col-sm-2 col-md-4 status text-success"><span class="fa fa-check fa-fw" title="Pass"></span> Pass</dt>
+                <dd class="col-xs-8 col-sm-10 col-md-8">Password passes rule</dd>
+                <dt class="col-xs-4 col-sm-2 col-md-4 status text-warning"><span class="fa fa-warning fa-fw" title="Warning"></span> Warning</dt>
+                <dd class="col-xs-8 col-sm-10 col-md-8">Password is close to failing this rule</dd>
+                <dt class="col-xs-4 col-sm-2 col-md-4 status text-danger"><span class="fa fa-times fa-fw" title="Fail"></span> Fail</dt>
+                <dd class="col-xs-8 col-sm-10 col-md-8">Password fails on this rule</dd>
+            </dl>
+        </div>
+    </div>
+
+    <footer>
+        <div class="row">
+            <div class="col-md-12">
+                <p id="footer-credits">
+                    <span id="credit-title">Credits:</span>
+                    <a id="jquery-link" href="http://jquery.com/" target="_blank">jQuery</a>
+                    <a id="bootstrap-link" href="http://getbootstrap.com/" target="_blank">Bootstrap</a>
+                    <a id="bootswatch-link" href="http://bootswatch.com/" target="_blank">Bootswatch</a>
+                    <a id="fontawesome-link" href="http://fontawesome.io/" target="_blank">Font Awesome</a>
+                </p>
+            </div>
+            <!--<div class="col-md-6">
+                <p id="repo-text" class="pull-right">
+                    view &nbsp;<a target="_blank" href="https://github.com/phaze-phusion/password-checker" id="git-repo-link"><span class="fa fa-git fa-lg"></span></a>&nbsp; repo
+                </p>
+            </div>-->
+        </div>
+    </footer>
+    </div> <!-- /container -->
+    <div id="page-footer">
+        <div class="container">
+            <div id="footer-copyright">
+            Copyright 2015 &copy; <a href="http://phaze-phusion.co.za" target="_blank">phaze-phusion</a>.<br class="visible-xs" />
+            Published under the terms of the <a href="http://www.gnu.org/licenses/" target="_blank" title="GNU GPL v3">GNU General Public License v3</a>.
+            </div>
+        </div>
+    </div>
+
+	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>-->
+    <script src="libs/jquery/jquery-1.11.2.min.js"></script>
+    <script src="libs/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/frontend.js"></script>
+  </body>
+</html>
