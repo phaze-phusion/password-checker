@@ -32,11 +32,14 @@
  *
  * Change-log
  *
- * v1.2    Added entropy as a nice to know front-end feature
+ * v1.3    Increased maximum for Consecutive characters from 2 to 3,
+ *         Increased maximum for Repeated characters from 1 to 2.
+ *
+ * v1.2    Added entropy as a nice to know front-end feature.
  *         Entropy doesn't affect the score, for the reason see the following paper:
  *           http://reusablesec.blogspot.com/2010/10/new-paper-on-password-security-metrics.html)
  *
- * v1.1    Fixed warning break points for consecutive characters
+ * v1.1    Fixed warning break points for consecutive characters.
  *
  * v1.0    First release
  *
@@ -1115,7 +1118,7 @@ pwdchk.namespace = function (namespaceString,functionImplementation) {
 	var InfractionClass = function() {
 
 		var MinorOffence = function(obj){
-			this.maximum = 2;	// maximum chars allowed; before bonus becomes a penalty
+			this.maximum = 3;	// maximum chars allowed; before bonus becomes a penalty
 			this.status  = 3;   // 'pass' status code
 			charSpecs.call(this,obj);
 			return this;
@@ -1143,7 +1146,7 @@ pwdchk.namespace = function (namespaceString,functionImplementation) {
 		};
 
 		this.repeatedCharacters = new MinorOffence({
-			maximum	: 1,
+			maximum	: 2,
 			factor	: -2,
 			calc	: function () {
 				var uniqueCharacters = pwdchk.helpers.arrayUniques(PWD.ARR);
