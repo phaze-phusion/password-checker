@@ -32,6 +32,8 @@
  *
  * Change-log
  *
+ * v1.4    Updated keyboard patterns to only use US-EN layout
+ *
  * v1.3    Increased maximum for Consecutive characters from 2 to 3,
  *         Increased maximum for Repeated characters from 1 to 2.
  *
@@ -1279,15 +1281,16 @@ pwdchk.namespace = function (namespaceString,functionImplementation) {
 
 		this.keyboardPatterns = new SeriousOffences({
 			factor	: -10,
-			// in order:
-			// US-EN horizontal qwertyuiopasdfghjklzxcvbnm
-			// US-EN vertical   1qaz2wsx3edc4rfv5tgb6yhn7ujm8ik,9ol.0p;/-[=]
-			// DE horizontal    qwertzuiopasdfghjklyxcvbnm!\"§$%&/()=
-			// DE vertical      1qay2wsx3edc4rfv5tgb6zhn7ujm8ik,9ol.0pö-üä+#"
-			sequence: 'qwertyuiopasdfghjklzxcvbnm' +
-			'1qaz2wsx3edc4rfv5tgb6yhn7ujm8ik,9ol.0p;/-[=]' +
-			'rtzuiklyxc!"§$%&/()=' +
-			'1qay2wb6zhn.0pö-üä+#'
+			// US-EN Keyboard layout
+			//   No upper-case  as check is done against an all lower-case password:
+			// horizontal            `1234567890-=qwertyuiop[]\asdfghjkl;'zxcvbnm,./
+			// horizontal w/ shift   `~!@#$%^&*()_+qwertyuiop{}|asdfghjkl:"zxcvbnm<>?
+			// vertical              1qaz2wsx3edc4rfv5tgb6yhn7ujm8ik,9ol.0p;/-['=]
+			// vertical w/ shift     !qaz@wsx#edc$rfv%tgb^yhn&ujm*ik<(ol>)p:?_{"+}
+			sequence: "`1234567890-=qwertyuiop[]\asdfghjkl;'zxcvbnm,./\
+`~!@#$%^&*()_+qwertyuiop{}|asdfghjkl:\"zxcvbnm<>?\
+1qaz2wsx3edc4rfv5tgb6yhn7ujm8ik,9ol.0p;/-['=]\
+!qaz@wsx#edc$rfv%tgb^yhn&ujm*ik<(ol>)p:?_{\"+}"
 		});
 
 		this.yearPatterns = new SeriousOffences({
@@ -1309,27 +1312,27 @@ pwdchk.namespace = function (namespaceString,functionImplementation) {
 		});
 
 		var commonWordsStr = "911|314159|27182\
-			a#shole|access|action|albert|alex|amanda|amateur|andre|angel|animal|anthony|apollo|apple|arsenal|\
-			arthur|ashley|august|austin|baby|bailey|ball|banana|barney|batman|beach|bear|beaver|beavis|beer|bill|birdie|bitch|\
-			bite|bl#w|black|blazer|blonde|blow|blue|bond007|bonnie|boob|booger|boom|booty|boston|boy|brand|braves|brazil|brian|\
-			bronco|bubba|buddy|bust|butt|c#ck|c#m|c#nt|calvin|camaro|canada|captain|carlos|carter|casper|charl|cheese|chelsea|\
-			chester|chevy|chicago|chicken|chris|cocacola|coffee|college|comp|cookie|cool|cooper|corvette|cow|cream|crystal|daddy|\
-			dakota|dallas|daniel|dave|david|debbie|dennis|diablo|diamond|dick|dirty|doctor|dog|dolphin|donald|dragon|dreams|driver|\
-			eagle|edward|einstein|enjoy|enter|eric|erotic|ever|extreme|f#ck|falcon|fender|ferrari|fire|fish|florida|flower|flyers|\
-			ford|forever|frank|fred|freedom|gandalf|gateway|gators|gemini|george|giants|ginger|girl|gold|golf|gordon|great|green|\
-			gregory|guitar|gunner|hammer|hannah|happy|hardcore|harley|heather|hell|helpme|hentai|hockey|hooters|horn|house|hunt|\
-			iceman|internet|jack|jaguar|jake|james|japan|jasmine|jason|jasper|jenn|jeremy|jessica|john|jordan|joseph|joshua|juice|\
-			junior|justin|kelly|kevin|killer|king|kitty|knight|ladies|lakers|lauren|leather|legend|letmein|little|london|love|lucky|\
-			maddog|madison|maggie|magic|magnum|marine|mark|marlboro|martin|marvin|master|matrix|matt|maverick|max|melissa|member|\
-			merc|merlin|mich|mick|midnight|mike|miller|mine|mistress|money|monica|monkey|monster|morgan|mother|mountain|movie|muff|\
-			murphy|music|mustang|naked|nascar|nathan|naught|newyork|nicholas|nicole|nipple|oliver|orange|p#ss|pa#s|pa#sword|packers|\
-			pant|paris|parker|patrick|paul|peach|peanut|penis|pepper|peter|phantom|phoenix|player|please|pookie|porn|porsche|power|\
-			prince|private|purple|rabbit|rachel|racing|raid|rainbow|ranger|rebecca|red|richard|rob|rock|rosebud|run|rush|russia|\
-			sam|sandra|saturn|scooby|scoot|scorpio|scott|secret|sex|shadow|shannon|shaved|shit|sierra|silver|skip|slayer|slut|\
-			smith|smoke|snoop|soccer|sophie|spank|spark|spider|squirt|srinivas|star|steelers|steve|sticky|stupid|success|suckit|\
-			summer|sunshine|super|surfer|swim|sydney|taylor|teens|tennis|teresa|test|the|thomas|thunder|thx|tiffany|tiger|tigger|\
-			time|tits|tom|topgun|toyota|travis|trouble|trust|tucker|turtle|united|vagina|victor|victoria|video|viking|viper|voodoo|\
-			voyager|walter|want|warrior|welcome|what|white|will|wilson|winner|winston|winter|wizard|wolf|women|xavier|yamaha|yank|yellow|young";
+a#shole|access|action|albert|alex|amanda|amateur|andre|angel|animal|anthony|apollo|apple|arsenal|\
+arthur|ashley|august|austin|baby|bailey|ball|banana|barney|batman|beach|bear|beaver|beavis|beer|bill|birdie|bitch|\
+bite|bl#w|black|blazer|blonde|blow|blue|bond007|bonnie|boob|booger|boom|booty|boston|boy|brand|braves|brazil|brian|\
+bronco|bubba|buddy|bust|butt|c#ck|c#m|c#nt|calvin|camaro|canada|captain|carlos|carter|casper|charl|cheese|chelsea|\
+chester|chevy|chicago|chicken|chris|cocacola|coffee|college|comp|cookie|cool|cooper|corvette|cow|cream|crystal|daddy|\
+dakota|dallas|daniel|dave|david|debbie|dennis|diablo|diamond|dick|dirty|doctor|dog|dolphin|donald|dragon|dreams|driver|\
+eagle|edward|einstein|enjoy|enter|eric|erotic|ever|extreme|f#ck|falcon|fender|ferrari|fire|fish|florida|flower|flyers|\
+ford|forever|frank|fred|freedom|gandalf|gateway|gators|gemini|george|giants|ginger|girl|gold|golf|gordon|great|green|\
+gregory|guitar|gunner|hammer|hannah|happy|hardcore|harley|heather|hell|helpme|hentai|hockey|hooters|horn|house|hunt|\
+iceman|internet|jack|jaguar|jake|james|japan|jasmine|jason|jasper|jenn|jeremy|jessica|john|jordan|joseph|joshua|juice|\
+junior|justin|kelly|kevin|killer|king|kitty|knight|ladies|lakers|lauren|leather|legend|letmein|little|london|love|lucky|\
+maddog|madison|maggie|magic|magnum|marine|mark|marlboro|martin|marvin|master|matrix|matt|maverick|max|melissa|member|\
+merc|merlin|mich|mick|midnight|mike|miller|mine|mistress|money|monica|monkey|monster|morgan|mother|mountain|movie|muff|\
+murphy|music|mustang|naked|nascar|nathan|naught|newyork|nicholas|nicole|nipple|oliver|orange|p#ss|pa#s|pa#sword|packers|\
+pant|paris|parker|patrick|paul|peach|peanut|penis|pepper|peter|phantom|phoenix|player|please|pookie|porn|porsche|power|\
+prince|private|purple|rabbit|rachel|racing|raid|rainbow|ranger|rebecca|red|richard|rob|rock|rosebud|run|rush|russia|\
+sam|sandra|saturn|scooby|scoot|scorpio|scott|secret|sex|shadow|shannon|shaved|shit|sierra|silver|skip|slayer|slut|\
+smith|smoke|snoop|soccer|sophie|spank|spark|spider|squirt|srinivas|star|steelers|steve|sticky|stupid|success|suckit|\
+summer|sunshine|super|surfer|swim|sydney|taylor|teens|tennis|teresa|test|the|thomas|thunder|thx|tiffany|tiger|tigger|\
+time|tits|tom|topgun|toyota|travis|trouble|trust|tucker|turtle|united|vagina|victor|victoria|video|viking|viper|voodoo|\
+voyager|walter|want|warrior|welcome|what|white|will|wilson|winner|winston|winter|wizard|wolf|women|xavier|yamaha|yank|yellow|young";
 
 		this.commonWords = new SeriousOffences({
 			factor	: -20,
