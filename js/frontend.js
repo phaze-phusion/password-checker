@@ -201,18 +201,24 @@ var PasswordCalculator = (function ($) {
 	$('[data-toggle="popover"]').popover();
 
 	// Show password characters
-	$('#passwordShow').on('click touchend pwdReset',function(){
+	$('#passwordShow').on('click touchend',function(event){
+		event.stopPropagation();
+		event.preventDefault();
 		$('#passwordTxt').val( $('#passwordPwd').val() );
 		$('#passwordMasked').add('#passwordMaskedLabel').addClass('hidden');
 		$('#passwordVisible').add('#passwordVisibleLabel').removeClass('hidden');
 	});
 	// Hide password characters
-	$('#passwordHide').on('click touchend',function(){
+	$('#passwordHide').on('click touchend',function(event){
+		event.stopPropagation();
+		event.preventDefault();
 		$('#passwordPwd').val( $('#passwordTxt').val() );
 		$('#passwordVisible').add('#passwordVisibleLabel').addClass('hidden');
 		$('#passwordMasked').add('#passwordMaskedLabel').removeClass('hidden');
 	});
 	$('.try-me').on('click touchend',function(event){
+		event.stopPropagation();
+		event.preventDefault();
 		var valueToCopy = $(event.target).text();
 		$('#passwordPwd')
 			.add('#passwordTxt')
