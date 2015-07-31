@@ -33,6 +33,8 @@
  * Change-log
  *
  * v1.4    Updated keyboard patterns to only use US-EN layout
+ *         Adjusted warning-break-point for characterCountRecommended
+ *         Fixed zero count penalty for ConstructiveDefaults
  *
  * v1.3    Increased maximum for Consecutive characters from 2 to 3,
  *         Increased maximum for Repeated characters from 1 to 2.
@@ -945,7 +947,7 @@ pwdchk.namespace = function (namespaceString,functionImplementation) {
 		this.characterCountRecommended = new ConstructiveDefaults({
 			minimum	: 12,
 			factor	: 1,
-			warningBreakPoint : 8, // characterCountNormal.minimum
+			warningBreakPoint : 10, // this.minimum - 2
 			rateCount : function () {
 				var _this = this;
 				_this.count = PWD.LEN;
@@ -979,7 +981,11 @@ pwdchk.namespace = function (namespaceString,functionImplementation) {
 
 			_this.rating = _this.count * _this.factor;
 
-			if(_this.count < _this.minimum){
+			if(_this.count === 0){
+				_this.rating = Math.round(-1.5 * _this.factor); // 150% the penalty
+				_this.status = 0;
+			}
+			else if(_this.count < _this.minimum){
 				var warningBreakPoint = _this.minimum - 1;
 				_this.status = (_this.count >= warningBreakPoint) ? 1 : 0;
 				_this.rating *= -1;
